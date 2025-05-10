@@ -32,31 +32,31 @@ public class Eddy.Package : Object {
     public signal void state_updated ();
 
     public string filename { public get; construct; }
-    public string name { 
+    public string name {
         get {
             return target.get_name ();
         }
     }
 
-    public string summary { 
+    public string summary {
         get {
             return target.summary;
         }
     }
 
-    public string version { 
+    public string version {
         get {
             return target.get_version ();
         }
     }
 
-    public uint64 installed_size { 
+    public uint64 installed_size {
         get {
             return target.size;
         }
     }
 
-    public string homepage { 
+    public string homepage {
         owned get {
             return target.url;
         }
@@ -76,8 +76,8 @@ public class Eddy.Package : Object {
     public bool has_task { get; set; default = false; }
 
     public StateFlags state_flags { public get; private set; default = StateFlags.NOT_INSTALLED; }
-    
-    public bool is_installed { 
+
+    public bool is_installed {
         get {
             return StateFlags.INSTALLED in state_flags;
         }
@@ -178,7 +178,7 @@ public class Eddy.Package : Object {
         foreach (var package in packages) {
             yield package.reset ();
             package.exit_code = exit_code;
-        }   
+        }
 
         return result;
     }
@@ -282,19 +282,19 @@ public class Eddy.Package : Object {
 
         int length = int.max (aparts.length, bparts.length);
         for (int i = 0; i < length; i++) {
-            int rc = strcmp (aparts[i], bparts[i]);
-            if (i == length - 1) {              
-                if (bparts[i] > aparts[i]) {
-                    return 1;
-                }      
-                else if (bparts[i] < aparts[i]) {
+            int a_num, b_num;
+            bool a_is_num = int.try_parse(aparts[i], out a_num);
+            bool b_is_num = int.try_parse(bparts[i], out b_num);
+
+            if (a_is_num && b_is_num) {
+                if (a_num < b_num) {
                     return -1;
-                }                             
-            }
-            if (rc < 0) {
-                return -1;
-            } else if (rc > 0) {
-                return 1;
+                } else if (a_num > b_num) {
+                    return 1;
+                }
+                return 0;
+            } else {
+                return strcmp (aparts[i], bparts[i]);
             }
         }
 
@@ -401,7 +401,7 @@ public class Eddy.Package : Object {
                 yield update_installed_state ();
                 return true;
             }
-            
+
         } catch (Error e) {
             throw e;
         }
@@ -426,7 +426,7 @@ public class Eddy.Package : Object {
                     found = true;
                     state_flags = StateFlags.INSTALLED;
 
-                    int rc = compare_versions (package.get_version (), version); 
+                    int rc = compare_versions (package.get_version (), version);
                     if (rc == 1) {
                         state_flags |= StateFlags.CAN_DOWNGRADE;
                     } else if (rc == -1) {
