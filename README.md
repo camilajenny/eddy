@@ -31,9 +31,12 @@ These dependencies must be present before building
  - `packagekit-glib2`
  - `unity`
 
- You can install these on a Ubuntu-based system by executing this command:
+ You can install these on an Ubuntu-based system by executing this command:
 
- `sudo apt install valac libgranite-dev libpackagekit-glib2-dev libunity-dev meson ninja-build libzeitgeist-2.0-dev gettext`
+```
+sudo apt install valac libgranite-dev libpackagekit-glib2-dev libunity-dev meson ninja-build \
+libzeitgeist-2.0-dev gettext
+```
 
 ### Building
 ```
