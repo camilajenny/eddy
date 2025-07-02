@@ -38,6 +38,7 @@ executable(
     'src/AppSettings.vala',
     'src/Constants.vala',
     'src/DetailedView.vala',
+    'src/EddyUtils.vala',
     'src/FolderLoader.vala',
     'src/MainWindow.vala',
     'src/MimeTypeHelper.vala',
