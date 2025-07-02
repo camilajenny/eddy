@@ -385,10 +385,10 @@ public class Eddy.Package : Object {
                     found = true;
                     state_flags = StateFlags.INSTALLED;
 
-                    int rc = compare_versions (package.get_version (), version);
+                    int rc = EddyUtils.compare_versions (version, package.get_version ());
                     if (rc < 0) {
                         state_flags |= StateFlags.CAN_DOWNGRADE;
-                    } else {
+                    } else if (rc > 0) {
                         state_flags |= StateFlags.CAN_UPDATE;
                     }
                 }
