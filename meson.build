@@ -52,7 +52,23 @@ executable(
     install: true
 )
 
+#
+# Build glue
+#
+
+valadoc = find_program('valadoc', required: false)
+
+vala_unit_proj = subproject(
+    'vala-unit',
+    default_options: [
+        'install=false',
+        'valadoc=@0@'.format(valadoc.found())
+    ]
+)
+vala_unit_dep = vala_unit_proj.get_variable('vala_unit_dep')
+
 subdir('data')
 subdir('po')
+subdir('test')
 
 meson.add_install_script('meson/post_install.py')
